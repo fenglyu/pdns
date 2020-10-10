@@ -1,6 +1,11 @@
 FROM alpine:3.10 as dnsdist
 ARG BUILDER_CACHE_BUSTER=
 
+#RUN pip config set global.index-url http://mirrors.aliyun.com/pypi/simple
+#RUN pip config set install.trusted-host mirrors.aliyun.com
+ADD builder-support/dockerfiles/pip.conf /etc/pip.conf 
+RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories
+RUN apk update
 RUN apk add --no-cache gcc g++ make tar autoconf automake protobuf-dev lua-dev \
                        libtool file boost-dev ragel py-virtualenv git libedit-dev
 

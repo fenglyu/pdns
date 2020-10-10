@@ -1,6 +1,10 @@
 FROM alpine:3.10 as pdns-authoritative
 ARG BUILDER_CACHE_BUSTER=
 
+ADD builder-support/dockerfiles/pip.conf /etc/pip.conf 
+RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories
+RUN apk update
+
 RUN apk add --no-cache gcc g++ make tar autoconf automake protobuf-dev lua-dev \
                        libtool file boost-dev curl openssl-dev ragel py-virtualenv \
                        flex bison git
